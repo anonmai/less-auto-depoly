@@ -77,7 +77,32 @@ install_dependencies() {
 # 安装Xray
 install_xray() {
     echo -e "${YELLOW}安装Xray-core...${NC}"
-    curl -L https://github.com/XTLS/Xray-install/raw/main/install.sh | bash -s install
+    # 使用官方推荐的安装脚本
+    bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install
+    
+    # 如果上面的命令失败，尝试手动安装
+    if [ ! -f "/usr/local/bin/xray" ]; then
+        echo -e "${YELLOW}尝试手动安装Xray-core...${NC}"
+        TMP_DIR=$(mktemp -d)
+        cd "$TMP_DIR"
+        
+        # 下载最新版本的Xray
+        wget https://github.com/XTLS/Xray-core/releases/latest/download/Xray-linux-64.zip
+        
+        # 解压
+        unzip Xray-linux-64.zip
+        
+        # 安装
+        cp xray /usr/local/bin/
+        chmod +x /usr/local/bin/xray
+        
+        # 创建配置目录
+        mkdir -p /usr/local/etc/xray
+        
+        # 清理
+        cd /
+        rm -rf "$TMP_DIR"
+    fi
 }
 
 # 生成配置
