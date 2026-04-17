@@ -87,6 +87,7 @@ sudo ./scripts/install.sh
 根据客户端类型，参考相应的配置说明：
 - [Windows客户端配置](clients/windows.md)
 - [iOS客户端配置](clients/ios.md)
+- [安卓客户端配置](clients/android.md)
 
 ## 技术原理
 
