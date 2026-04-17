@@ -159,12 +159,15 @@ EOF
     echo -e "${YELLOW}重启Xray服务...${NC}"
     systemctl restart xray || echo -e "${YELLOW}警告: Xray服务重启失败，可能需要手动启动${NC}"
     
+    # 获取IPv4地址
+    SERVER_IP=$(ip -4 addr | grep inet | grep -v 127.0.0.1 | grep -v 10. | awk '{print $2}' | cut -d'/' -f1 | head -1)
+    
     # 显示客户端配置信息
     echo -e "${GREEN}==============================================${NC}"
     echo -e "${GREEN}        客户端配置信息${NC}"
     echo -e "${GREEN}==============================================${NC}"
     echo -e "${YELLOW}协议:${NC} VLESS"
-    echo -e "${YELLOW}地址:${NC} $(curl -s ifconfig.me)"
+    echo -e "${YELLOW}地址:${NC} $SERVER_IP"
     echo -e "${YELLOW}端口:${NC} $PORT"
     echo -e "${YELLOW}UUID:${NC} $UUID"
     echo -e "${YELLOW}传输:${NC} tcp"
@@ -173,7 +176,7 @@ EOF
     echo -e "${GREEN}==============================================${NC}"
     
     # 生成VLESS链接
-    VLESS_LINK="vless://$UUID@$(curl -s ifconfig.me):$PORT?encryption=none&type=tcp&security=none"
+    VLESS_LINK="vless://$UUID@$SERVER_IP:$PORT?encryption=none&type=tcp&security=none"
     echo -e "${YELLOW}VLESS链接:${NC}"
     echo -e "$VLESS_LINK"
     echo -e "${GREEN}==============================================${NC}"
