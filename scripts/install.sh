@@ -125,13 +125,10 @@ generate_config() {
     # 生成短ID
     SHORT_ID=$(openssl rand -hex 8)
     
-    # 配置端口
-    read -p "请输入服务端口 (默认443): " PORT
-    PORT=${PORT:-443}
-    
-    # 配置伪装域名
-    read -p "请输入伪装域名 (默认www.microsoft.com): " SNI
-    SNI=${SNI:-www.microsoft.com}
+    # 使用默认端口和伪装域名
+    PORT=443
+    SNI=www.microsoft.com
+    echo -e "${GREEN}使用默认配置: 端口 $PORT, 伪装域名 $SNI${NC}"
     
     # 生成配置文件
     CONFIG_FILE="/usr/local/etc/xray/config.json"
