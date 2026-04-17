@@ -77,7 +77,7 @@ install_dependencies() {
 # 安装Xray
 install_xray() {
     echo -e "${YELLOW}安装Xray-core...${NC}"
-    bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install.sh)" @ install
+    curl -L https://github.com/XTLS/Xray-install/raw/main/install.sh | bash -s install
 }
 
 # 生成配置
