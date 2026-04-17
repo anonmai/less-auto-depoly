@@ -140,22 +140,27 @@ ufw status
 
 现在服务器已经准备就绪，可以部署我们的VPN服务了：
 
-1. 下载部署脚本：
+1. 克隆仓库：
    ```bash
-   wget https://raw.githubusercontent.com/yourusername/vpn-autodeploy/main/scripts/install.sh
+   git clone https://github.com/anonmai/less-auto-depoly.git
    ```
 
-2. 赋予执行权限：
+2. 进入目录：
    ```bash
-   chmod +x install.sh
+   cd less-auto-depoly
    ```
 
-3. 运行部署脚本：
+3. 赋予执行权限：
    ```bash
-   sudo ./install.sh
+   chmod +x scripts/install.sh
    ```
 
-4. 按照脚本提示完成配置
+4. 运行部署脚本：
+   ```bash
+   sudo ./scripts/install.sh
+   ```
+
+5. 脚本会自动完成配置，无需手动输入参数
 
 ## 6. 管理服务器
 

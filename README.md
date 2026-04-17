@@ -72,13 +72,7 @@ chmod +x scripts/install.sh
 sudo ./scripts/install.sh
 ```
 
-### 3. 配置参数
-
-根据脚本提示，输入以下参数：
-- 服务端口（默认443）
-- 伪装域名（默认www.microsoft.com）
-
-### 5. 获取客户端配置
+### 4. 获取客户端配置
 
 部署完成后，脚本会显示客户端配置信息，包括：
 - 服务器地址
