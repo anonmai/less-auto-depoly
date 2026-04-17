@@ -157,6 +157,7 @@ generate_config() {
           "show": false,
           "dest": "$SNI:443",
           "xver": 0,
+          "serverName": "$SNI",
           "serverNames": ["$SNI"],
           "privateKey": "$PRIVATE_KEY",
           "shortIds": ["$SHORT_ID"],
