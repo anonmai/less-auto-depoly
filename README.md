@@ -78,7 +78,7 @@ sudo ./scripts/install.sh
 - 服务端口（默认443）
 - 伪装域名（默认www.microsoft.com）
 
-### 4. 获取客户端配置
+### 5. 获取客户端配置
 
 部署完成后，脚本会显示客户端配置信息，包括：
 - 服务器地址
@@ -88,7 +88,7 @@ sudo ./scripts/install.sh
 - 短ID
 - SNI
 
-### 5. 配置客户端
+### 6. 配置客户端
 
 根据客户端类型，参考相应的配置说明：
 - [Windows客户端配置](clients/windows.md)
