@@ -24,17 +24,52 @@
 
 准备一台Ubuntu VPS服务器，确保服务器可以正常访问互联网。
 
-### 2. 运行部署脚本
+### 2. 连接服务器
 
+使用SSH终端连接到服务器：
+
+**Windows用户**：
+- 使用PuTTY或Windows Terminal
+- 输入服务器IP地址
+- 端口：22
+- 用户名：root
+- 输入密码或使用SSH密钥
+
+**Mac/Linux用户**：
+```bash
+ssh root@服务器IP地址
+```
+
+### 3. 从仓库下载部署脚本
+
+**方法一：直接下载脚本**
 ```bash
 # 下载脚本
-wget https://raw.githubusercontent.com/yourusername/vpn-autodeploy/main/scripts/install.sh
+wget https://raw.githubusercontent.com/anonmai/less-auto-depoly/main/scripts/install.sh
 
 # 赋予执行权限
 chmod +x install.sh
 
 # 运行脚本
 sudo ./install.sh
+```
+
+**方法二：克隆整个仓库**
+```bash
+# 安装git（如果未安装）
+apt install git -y
+
+# 克隆仓库
+git clone https://github.com/anonmai/less-auto-depoly.git
+
+# 进入目录
+cd less-auto-depoly
+
+# 赋予执行权限
+chmod +x scripts/install.sh
+
+# 运行脚本
+sudo ./scripts/install.sh
 ```
 
 ### 3. 配置参数
