@@ -112,68 +112,42 @@ generate_config() {
     # 生成UUID
     UUID=$(uuidgen)
     
-    # 生成REALITY密钥
-    XRAY_BIN=$(which xray)
-    if [ -z "$XRAY_BIN" ]; then
-        XRAY_BIN="/usr/local/bin/xray"
-    fi
-    REALITY_KEYS=$($XRAY_BIN x25519)
-    # 提取密钥（支持不同版本的输出格式）
-    PRIVATE_KEY=$(echo "$REALITY_KEYS" | grep -E "PrivateKey:|Private key:" | awk '{print $2}')
-    PUBLIC_KEY=$(echo "$REALITY_KEYS" | grep -E "Password \(PublicKey\):|Public key:" | awk '{print $3}')
-    
-    # 生成短ID
-    SHORT_ID=$(openssl rand -hex 8)
-    
-    # 使用默认端口和伪装域名
+    # 使用默认端口
     PORT=443
-    SNI=www.microsoft.com
-    echo -e "${GREEN}使用默认配置: 端口 $PORT, 伪装域名 $SNI${NC}"
+    echo -e "${GREEN}使用默认配置: 端口 $PORT${NC}"
     
     # 生成配置文件
     CONFIG_FILE="/usr/local/etc/xray/config.json"
-    cat > $CONFIG_FILE << EOF
+    cat > $CONFIG_FILE << 'EOF'
 {
-  "log": {
-    "loglevel": "warning"
-  },
   "inbounds": [
     {
-      "port": $PORT,
+      "port": 443,
       "protocol": "vless",
       "settings": {
         "clients": [
           {
-            "id": "$UUID",
-            "flow": ""
+            "id": "UUID_PLACEHOLDER"
           }
         ],
         "decryption": "none"
       },
       "streamSettings": {
         "network": "tcp",
-        "security": "reality",
-        "realitySettings": {
-          "show": false,
-          "dest": "$SNI:443",
-          "xver": 0,
-          "serverName": "$SNI",
-          "serverNames": ["$SNI"],
-          "privateKey": "$PRIVATE_KEY",
-          "shortIds": ["$SHORT_ID"],
-          "fingerprint": "chrome"
-        }
+        "security": "none"
       }
     }
   ],
   "outbounds": [
     {
-      "protocol": "freedom",
-      "settings": {}
+      "protocol": "freedom"
     }
   ]
 }
 EOF
+    
+    # 替换UUID占位符
+    sed -i "s/UUID_PLACEHOLDER/$UUID/g" $CONFIG_FILE
     
     echo -e "${GREEN}配置文件生成成功${NC}"
     
@@ -194,16 +168,12 @@ EOF
     echo -e "${YELLOW}端口:${NC} $PORT"
     echo -e "${YELLOW}UUID:${NC} $UUID"
     echo -e "${YELLOW}传输:${NC} tcp"
-    echo -e "${YELLOW}TLS:${NC} 开启"
-    echo -e "${YELLOW}SNI:${NC} $SNI"
-    echo -e "${YELLOW}ALPN:${NC} h2,http/1.1"
-    echo -e "${YELLOW}REALITY:${NC} 开启"
-    echo -e "${YELLOW}公钥:${NC} $PUBLIC_KEY"
-    echo -e "${YELLOW}短ID:${NC} $SHORT_ID"
+    echo -e "${YELLOW}加密:${NC} none"
+    echo -e "${YELLOW}安全:${NC} none"
     echo -e "${GREEN}==============================================${NC}"
     
     # 生成VLESS链接
-    VLESS_LINK="vless://$UUID@$(curl -s ifconfig.me):$PORT?security=reality&encryption=none&type=tcp&sni=$SNI&alpn=h2%2Chttp%2F1.1&reality-pubkey=$PUBLIC_KEY&reality-shortId=$SHORT_ID"
+    VLESS_LINK="vless://$UUID@$(curl -s ifconfig.me):$PORT?encryption=none&type=tcp&security=none"
     echo -e "${YELLOW}VLESS链接:${NC}"
     echo -e "$VLESS_LINK"
     echo -e "${GREEN}==============================================${NC}"
