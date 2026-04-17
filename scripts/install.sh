@@ -162,7 +162,8 @@ generate_config() {
           "xver": 0,
           "serverNames": ["$SNI"],
           "privateKey": "$PRIVATE_KEY",
-          "shortIds": ["$SHORT_ID"]
+          "shortIds": ["$SHORT_ID"],
+          "fingerprint": "chrome"
         }
       }
     }
