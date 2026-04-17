@@ -118,8 +118,9 @@ generate_config() {
         XRAY_BIN="/usr/local/bin/xray"
     fi
     REALITY_KEYS=$($XRAY_BIN x25519)
-    PRIVATE_KEY=$(echo "$REALITY_KEYS" | grep "Private key" | awk '{print $3}')
-    PUBLIC_KEY=$(echo "$REALITY_KEYS" | grep "Public key" | awk '{print $3}')
+    # 提取密钥（支持不同版本的输出格式）
+    PRIVATE_KEY=$(echo "$REALITY_KEYS" | grep -E "PrivateKey:|Private key:" | awk '{print $2}')
+    PUBLIC_KEY=$(echo "$REALITY_KEYS" | grep -E "Password \(PublicKey\):|Public key:" | awk '{print $3}')
     
     # 生成短ID
     SHORT_ID=$(openssl rand -hex 8)
